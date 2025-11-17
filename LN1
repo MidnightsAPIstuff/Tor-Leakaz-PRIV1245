@@ -1,102 +1,71 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Leakaz Official</title>
-  <style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leakaz Official</title>
+<style>
     body {
-      background: #000;
-      color: #ff3333;
-      font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 24px;
-      gap: 20px;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 50px;
+        background-color: #f0f0f0;
     }
-    header { text-align: center; margin-bottom: 12px; }
-    .brand { font-size: 24px; font-weight: bold; }
-    .card { background: rgba(255,255,255,0.02); padding: 18px; border-radius: 12px; width: 100%; max-width: 800px; }
-    h1 { margin-bottom: 12px; }
-    .title-row { display: flex; gap: 12px; margin-bottom: 14px; }
-    .title-btn { background: transparent; border: 1px solid rgba(255,51,51,0.3); color: #ff3333; padding: 8px 14px; border-radius: 8px; cursor: pointer; }
-    .title-btn:hover { background: rgba(255,51,51,0.03); }
-    textarea { width: 100%; min-height: 140px; padding: 12px; border-radius: 10px; border: 1px solid rgba(255,51,51,0.15); background: rgba(0,0,0,0.5); color: #ff7777; }
-    .post-btn { margin-top: 8px; padding: 10px 16px; border-radius: 10px; border: none; font-weight: bold; background: #ff3333; color: #fff; cursor: pointer; }
-    .post-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-    .feed { margin-top: 18px; display: flex; flex-direction: column; gap: 12px; }
-    .post { padding: 12px; border-radius: 10px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,51,51,0.06); color: #ffdddd; word-break: break-word; }
-    .meta-small { font-size: 12px; opacity: 0.75; margin-bottom: 8px; }
-  </style>
+    h1 {
+        font-size: 50px;
+        margin-bottom: 0;
+    }
+    hr {
+        width: 50%;
+        margin: 20px auto;
+        border: 2px solid #000;
+    }
+    p {
+        font-size: 20px;
+        margin-bottom: 40px;
+    }
+    button {
+        padding: 15px 30px;
+        font-size: 18px;
+        margin: 10px;
+        cursor: pointer;
+    }
+    .page {
+        display: none;
+    }
+    .active {
+        display: block;
+    }
+</style>
 </head>
 <body>
-  <header>
-    <div class="brand">Leakaz Official</div>
-  </header>
 
-  <main>
-    <section class="card">
-      <h1 id="leak-title">Leak Title</h1>
-      <div class="title-row">
-        <button class="title-btn" data-title="title 1">title 1</button>
-        <button class="title-btn" data-title="title 2">title 2</button>
-      </div>
+<div id="mainPage" class="active">
+    <h1>Leakaz Official</h1>
+    <hr>
+    <p>Welcome to the official Leakaz page. Choose an option below:</p>
+    <button onclick="showPage('page1')">Page 1</button>
+    <button onclick="showPage('page2')">Page 2</button>
+</div>
 
-      <textarea id="postInput" placeholder="Paste the required string exactly to post"></textarea>
-      <button id="postButton" class="post-btn" disabled>Post (global)</button>
-      <div id="feedback" style="margin-top:8px; font-size:13px;"></div>
-    </section>
+<div id="page1" class="page">
+    <h2>Page 1</h2>
+    <p>This is the content of Page 1.</p>
+    <button onclick="showPage('mainPage')">Back</button>
+</div>
 
-    <section class="card">
-      <h2>Global Feed</h2>
-      <div id="feed" class="feed"></div>
-    </section>
-  </main>
+<div id="page2" class="page">
+    <h2>Page 2</h2>
+    <p>This is the content of Page 2.</p>
+    <button onclick="showPage('mainPage')">Back</button>
+</div>
 
-  <script>
-    (function(){
-      const REQUIRED = "ADMIN75098347603460593486904386083934760974308698436734903476809436709436983470698340967340968340967439069043690347690347690834-43780967808043709349809347908439043986349067938408693407684309687430986i4360h34jop43nkbg89430opj43gu9y34u408u6";
-      const textarea = document.getElementById('postInput');
-      const postButton = document.getElementById('postButton');
-      const feedback = document.getElementById('feedback');
-      const feed = document.getElementById('feed');
-      const titleButtons = document.querySelectorAll('.title-btn');
+<script>
+function showPage(pageId) {
+    document.querySelectorAll('.page, #mainPage').forEach(el => el.classList.remove('active'));
+    document.getElementById(pageId).classList.add('active');
+}
+</script>
 
-      function updateButton() {
-        postButton.disabled = textarea.value !== REQUIRED;
-      }
-
-      textarea.addEventListener('input', updateButton);
-
-      postButton.addEventListener('click', () => {
-        const text = textarea.value;
-        if(text !== REQUIRED) {
-          feedback.textContent = "Post failed: string does not match.";
-          return;
-        }
-        const postEl = document.createElement('div');
-        postEl.className = "post";
-        const meta = document.createElement('div');
-        meta.className = "meta-small";
-        meta.textContent = `Posted ${new Date().toLocaleString()}`;
-        postEl.appendChild(meta);
-        const content = document.createElement('div');
-        content.textContent = text;
-        postEl.appendChild(content);
-        feed.insertBefore(postEl, feed.firstChild);
-        textarea.value = "";
-        updateButton();
-        feedback.textContent = "Global post sent.";
-        setTimeout(()=>feedback.textContent="",2000);
-      });
-
-      titleButtons.forEach(btn=>{
-        btn.addEventListener('click',()=>{
-          document.getElementById('leak-title').textContent = btn.getAttribute('data-title');
-        });
-      });
-    })();
-  </script>
 </body>
 </html>
