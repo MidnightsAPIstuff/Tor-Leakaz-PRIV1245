@@ -5,224 +5,97 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Leakaz Official</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html,body { height: 100%; }
     body {
       background: #000;
       color: #ff3333;
-      font-family: Inter, Roboto, "Helvetica Neue", Arial, sans-serif;
-      line-height: 1.4;
-      padding: 24px;
+      font-family: Arial, sans-serif;
       display: flex;
       flex-direction: column;
       align-items: center;
+      padding: 24px;
       gap: 20px;
     }
-    header { width: 100%; text-align: center; margin-bottom: 6px; }
-    .brand { font-size: 20px; font-weight: 700; letter-spacing: 0.6px; }
-    main { width: 100%; max-width: 900px; }
-    .card {
-      background: rgba(255,255,255,0.02);
-      border: 1px solid rgba(255,51,51,0.08);
-      padding: 18px;
-      border-radius: 12px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.6);
-    }
-    h1 { font-size: 18px; margin-bottom: 12px; text-align: left; }
-    .title-row { display: flex; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
-    .title-btn {
-      background: transparent;
-      border: 1px solid rgba(255,51,51,0.3);
-      color: #ff3333;
-      padding: 8px 14px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-    }
+    header { text-align: center; margin-bottom: 12px; }
+    .brand { font-size: 24px; font-weight: bold; }
+    .card { background: rgba(255,255,255,0.02); padding: 18px; border-radius: 12px; width: 100%; max-width: 800px; }
+    h1 { margin-bottom: 12px; }
+    .title-row { display: flex; gap: 12px; margin-bottom: 14px; }
+    .title-btn { background: transparent; border: 1px solid rgba(255,51,51,0.3); color: #ff3333; padding: 8px 14px; border-radius: 8px; cursor: pointer; }
     .title-btn:hover { background: rgba(255,51,51,0.03); }
-    .post-area { display: flex; flex-direction: column; gap: 8px; }
-    textarea {
-      min-height: 140px;
-      resize: vertical;
-      max-height: 420px;
-      width: 100%;
-      padding: 12px;
-      border-radius: 10px;
-      border: 1px solid rgba(255,51,51,0.15);
-      background: rgba(0,0,0,0.5);
-      color: #ff7777;
-      font-size: 14px;
-      line-height: 1.45;
-      outline: none;
-    }
-    textarea:focus {
-      box-shadow: 0 0 0 3px rgba(255,51,51,0.06);
-      border-color: rgba(255,51,51,0.5);
-    }
-    .meta { display:flex; justify-content: space-between; align-items: center; gap: 12px; }
-    .char-count { font-size: 13px; opacity: 0.9; }
-    .post-btn {
-      background: linear-gradient(180deg, rgba(255,51,51,1), rgba(205,40,40,1));
-      color: #fff;
-      padding: 10px 16px;
-      border-radius: 10px;
-      border: none;
-      font-weight: 700;
-      cursor: pointer;
-      box-shadow: 0 6px 16px rgba(255,51,51,0.12);
-    }
-    .post-btn:disabled { opacity: 0.45; cursor: not-allowed; box-shadow: none; }
+    textarea { width: 100%; min-height: 140px; padding: 12px; border-radius: 10px; border: 1px solid rgba(255,51,51,0.15); background: rgba(0,0,0,0.5); color: #ff7777; }
+    .post-btn { margin-top: 8px; padding: 10px 16px; border-radius: 10px; border: none; font-weight: bold; background: #ff3333; color: #fff; cursor: pointer; }
+    .post-btn:disabled { opacity: 0.5; cursor: not-allowed; }
     .feed { margin-top: 18px; display: flex; flex-direction: column; gap: 12px; }
-    .post {
-      padding: 12px;
-      border-radius: 10px;
-      background: rgba(255,255,255,0.02);
-      border: 1px solid rgba(255,51,51,0.06);
-      color: #ffdddd;
-      font-size: 14px;
-      word-break: break-word;
-    }
-    .post .meta-small { font-size: 12px; opacity: 0.75; margin-bottom: 8px; }
-    @media (max-width: 520px) {
-      .brand { font-size: 18px; }
-      textarea { min-height: 120px; }
-    }
-    /* hide the required string visually but keep accessible if needed */
-    .required-string {
-      font-size: 11px;
-      opacity: 0.9;
-      margin-top: 6px;
-      word-break: break-all;
-      color: rgba(255,77,77,0.95);
-    }
+    .post { padding: 12px; border-radius: 10px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,51,51,0.06); color: #ffdddd; word-break: break-word; }
+    .meta-small { font-size: 12px; opacity: 0.75; margin-bottom: 8px; }
   </style>
 </head>
 <body>
-  <header role="banner">
+  <header>
     <div class="brand">Leakaz Official</div>
   </header>
 
   <main>
-    <section class="card" aria-labelledby="leak-title">
+    <section class="card">
       <h1 id="leak-title">Leak Title</h1>
-
-      <div class="title-row" role="toolbar" aria-label="Leak title options">
+      <div class="title-row">
         <button class="title-btn" data-title="title 1">title 1</button>
         <button class="title-btn" data-title="title 2">title 2</button>
       </div>
 
-      <form id="postForm" class="post-area" onsubmit="return false;">
-        <textarea id="postInput"
-                  placeholder="Paste the required string exactly to send a global post."
-                  aria-describedby="charCount requiredHint"
-                  required></textarea>
-
-        <div class="meta">
-          <div>
-            <div id="charCount" class="char-count" aria-live="polite"></div>
-            <div id="requiredHint" class="required-string" aria-hidden="true">
-              Required string: ADMIN75098347603460593486904386083934760974308698436734903476809436709436983470698340967340968340967439069043690347690347690834-43780967808043709349809347908439043986349067938408693407684309687430986i4360h34jop43nkbg89430opj43gu9y34u408u6
-            </div>
-          </div>
-
-          <div style="display:flex; gap:8px; align-items:center;">
-            <button type="button" id="pasteSample" class="title-btn" title="Paste the required string">paste required</button>
-            <button type="submit" id="postButton" class="post-btn" disabled>Post (global)</button>
-          </div>
-        </div>
-      </form>
-
-      <div id="feedback" role="status" aria-live="assertive" style="margin-top:8px; font-size:13px; opacity:.95"></div>
+      <textarea id="postInput" placeholder="Paste the required string exactly to post"></textarea>
+      <button id="postButton" class="post-btn" disabled>Post (global)</button>
+      <div id="feedback" style="margin-top:8px; font-size:13px;"></div>
     </section>
 
-    <section class="card" aria-labelledby="feedTitle" style="margin-top:14px;">
-      <h2 id="feedTitle" style="font-size:16px; margin-bottom:10px;">Global Feed</h2>
-      <div id="feed" class="feed" aria-live="polite" aria-relevant="additions"></div>
+    <section class="card">
+      <h2>Global Feed</h2>
+      <div id="feed" class="feed"></div>
     </section>
   </main>
 
   <script>
-    (function () {
-      // EXACT required string you provided:
+    (function(){
       const REQUIRED = "ADMIN75098347603460593486904386083934760974308698436734903476809436709436983470698340967340968340967439069043690347690347690834-43780967808043709349809347908439043986349067938408693407684309687430986i4360h34jop43nkbg89430opj43gu9y34u408u6";
-
       const textarea = document.getElementById('postInput');
-      const charCount = document.getElementById('charCount');
       const postButton = document.getElementById('postButton');
-      const feed = document.getElementById('feed');
       const feedback = document.getElementById('feedback');
-      const pasteSampleBtn = document.getElementById('pasteSample');
-      const titleButtons = document.querySelectorAll('.title-btn[data-title]');
+      const feed = document.getElementById('feed');
+      const titleButtons = document.querySelectorAll('.title-btn');
 
-      // show current length and expected length
-      function updateState() {
-        const currentLen = textarea.value.length;
-        charCount.textContent = `Current length: ${currentLen} characters — required exact string length: ${REQUIRED.length}`;
-        // enable only when the textarea exactly matches the required string
+      function updateButton() {
         postButton.disabled = textarea.value !== REQUIRED;
       }
 
-      // paste the required string into the textarea
-      pasteSampleBtn.addEventListener('click', () => {
-        textarea.value = REQUIRED;
-        updateState();
-        textarea.focus();
-      });
+      textarea.addEventListener('input', updateButton);
 
-      // title buttons set the visible Leak Title
-      titleButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const t = btn.getAttribute('data-title') || 'Leak Title';
-          document.getElementById('leak-title').textContent = t;
-          feedback.textContent = `Set leak title to "${t}".`;
-          setTimeout(() => feedback.textContent = '', 2000);
-        });
-      });
-
-      textarea.addEventListener('input', updateState);
-      window.addEventListener('load', updateState);
-
-      // handle submit: only allowed when exact match (button enabled only then)
-      document.getElementById('postForm').addEventListener('submit', (e) => {
-        e.preventDefault();
+      postButton.addEventListener('click', () => {
         const text = textarea.value;
-        if (text !== REQUIRED) {
-          feedback.textContent = 'Post failed: required string does not match exactly.';
+        if(text !== REQUIRED) {
+          feedback.textContent = "Post failed: string does not match.";
           return;
         }
-
-        // create post card and add to feed (simulated)
-        const postEl = document.createElement('article');
-        postEl.className = 'post';
-        const now = new Date();
+        const postEl = document.createElement('div');
+        postEl.className = "post";
         const meta = document.createElement('div');
-        meta.className = 'meta-small';
-        meta.textContent = `Posted ${now.toLocaleString()}`;
-        const content = document.createElement('div');
-        // show only first/obfuscated content for UI safety; full string shown as provided
-        content.textContent = text;
-
+        meta.className = "meta-small";
+        meta.textContent = `Posted ${new Date().toLocaleString()}`;
         postEl.appendChild(meta);
+        const content = document.createElement('div');
+        content.textContent = text;
         postEl.appendChild(content);
         feed.insertBefore(postEl, feed.firstChild);
-
-        feedback.textContent = 'Global post sent.';
-        textarea.value = '';
-        updateState();
-        setTimeout(() => feedback.textContent = '', 2500);
+        textarea.value = "";
+        updateButton();
+        feedback.textContent = "Global post sent.";
+        setTimeout(()=>feedback.textContent="",2000);
       });
 
-      // shortcut: Ctrl/Cmd + Enter to submit if match
-      textarea.addEventListener('keydown', (ev) => {
-        if ((ev.ctrlKey || ev.metaKey) && ev.key === 'Enter') {
-          ev.preventDefault();
-          document.getElementById('postForm').dispatchEvent(new Event('submit', {cancelable: true}));
-        }
+      titleButtons.forEach(btn=>{
+        btn.addEventListener('click',()=>{
+          document.getElementById('leak-title').textContent = btn.getAttribute('data-title');
+        });
       });
-
-      // initial tip
-      feedback.textContent = 'Tip: paste the required string exactly or click "paste required".';
-      setTimeout(() => feedback.textContent = '', 3500);
     })();
   </script>
 </body>
